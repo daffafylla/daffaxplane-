@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { GiAtomicSlashes } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
-import { MdArrowDropDown } from "react-icons/md";
+import { MdArrowDropDown, MdMenu, MdClose } from "react-icons/md";
 
 const MenuLinks = [
   {
@@ -23,24 +23,45 @@ const MenuLinks = [
 ];
 
 const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <nav>
       <div data-aos="fade-down" className="container py-4">
         <div className="flex items-center justify-between">
           {/* logo section */}
           <div className="flex items-center gap-4">
-            <GiAtomicSlashes className="text-6xl text-primary rotate" /> {/* Pastikan kelas rotate ada di sini */}
+            <GiAtomicSlashes className="text-6xl text-primary rotate" />
             <div className="flex flex-col text-2xl font-bold text-gray-600 leading-5">
               <span>Dora</span>
               <span>emon</span>
             </div>
           </div>
+
+          {/* toggler button for mobile */}
+          <div className="block md:hidden">
+            <button
+              onClick={toggleMenu}
+              className="text-primary text-3xl focus:outline-none"
+            >
+              { isMenuOpen ? <MdClose /> : <MdMenu />}
+            </button>
+          </div>
+
           {/* links section */}
-          <div className="hidden md:block">
-            <ul className="center">
+          <div
+            className={`${
+              isMenuOpen ? "block" : "hidden"
+            } md:block absolute md:static top-16 left-0 w-full md:w-auto bg-white md:bg-transparent shadow-md md:shadow-none z-10`}
+          >
+            <ul className="flex flex-col md:flex-row md:items-center md:gap-4 p-4 md:p-0">
               {MenuLinks.map((data, index) => {
                 return (
-                  <li key={index}>
+                  <li key={index} className="my-2 md:my-0">
                     <a className="navlink" href={data.link}>
                       {data.name}
                     </a>
@@ -51,7 +72,7 @@ const Navbar = () => {
           </div>
 
           {/* Search section */}
-          <div className="flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-6">
             <input
               type="text"
               placeholder="Search"
@@ -74,3 +95,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+    
